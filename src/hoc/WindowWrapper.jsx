@@ -26,8 +26,15 @@ const WindowWrapper = (Component, windowKey) => {
         if(!el) return;
 
         const [instance] = Draggable.create(el , {onPress: ()=> focusWindow(windowKey)})
+        
+        // Focus window on any click
+        const handleClick = () => focusWindow(windowKey);
+        el.addEventListener('mousedown', handleClick);
 
-        return () => instance.kill();
+        return () => {
+            instance.kill();
+            el.removeEventListener('mousedown', handleClick);
+        };
     },[])
 
     

@@ -11,9 +11,10 @@ const useWindowStore = create(immer((set)=>({
             const win = state.windows[windowKey];
             if(!win) return;
             win.isOpen = true;
-            win.zIndex =  state.nextZIndex;
             win.data = data ?? win.data;
-            state.nextZIndex++;
+            // assign current nextZIndex, then increment once
+            win.zIndex = state.nextZIndex;
+            state.nextZIndex = state.nextZIndex + 1;
         }),
         closeWindow: (windowKey) => 
             set((state) => {
@@ -26,7 +27,9 @@ const useWindowStore = create(immer((set)=>({
         focusWindow: (windowKey) => 
             set((state) => {
             const win = state.windows[windowKey];
-            win.zIndex =  state.nextZIndex++;
+            if(!win) return;
+            win.zIndex = state.nextZIndex;
+            state.nextZIndex = state.nextZIndex + 1;
         }),
     }))
 );

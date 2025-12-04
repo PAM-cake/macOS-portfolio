@@ -8,15 +8,25 @@ import { Search } from "lucide-react";
 import React from "react";
 
 const Finder = () => {
-const {openWindow} = useWindowStore()
+const {openWindow, focusWindow} = useWindowStore()
   const { activeLocation, setActiveLocation } = useLocationStore();
 
   const openItem = (item) => {
-    if(item.fileType === 'pdf') return openWindow('resume')
+    if(item.fileType === 'pdf'){
+      openWindow('resume')
+      focusWindow('resume')
+      return
+    }
     if(item.kind === 'folder') return setActiveLocation(item)
-    if(item.fileType === 'txt') return openWindow('txtfile', item)
+    if(item.fileType === 'txt'){
+      openWindow('txtfile', item)
+      focusWindow('txtfile')
+      return
+    }
     if(['fig' , 'url'].includes(item.fileType) && item.href) return window.open(item.href, "_blank")
-    openWindow(`${item.fileType}${item.kind}`,item)
+    const key = `${item.fileType}${item.kind}`
+    openWindow(key, item)
+    focusWindow(key)
     };
 
   const renderList = (items) =>

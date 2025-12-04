@@ -8,7 +8,7 @@ import { Tooltip } from "react-tooltip"
 
 const Dock = () => {
 
-    const {openWindow, closeWindow, windows} = useWindowStore();
+    const {openWindow, closeWindow, focusWindow, windows} = useWindowStore();
 
     const dockRef = useRef(null)
 
@@ -69,6 +69,7 @@ const Dock = () => {
         }
         else{
             openWindow(app.id);
+            focusWindow(app.id);
         }
 
         console.log(windows);

@@ -6,14 +6,20 @@ import clsx from "clsx";
 import { Trash2 } from "lucide-react";
 
 const Trash = () => {
-  const { openWindow } = useWindowStore();
+  const { openWindow, focusWindow } = useWindowStore();
   const trashLocation = locations.trash;
 
   const openItem = (item) => {
-    if (item.fileType === "img") return openWindow("imgfile", item);
+    if (item.fileType === "img"){
+      openWindow("imgfile", item);
+      focusWindow("imgfile")
+      return
+    }
     if (["fig", "url"].includes(item.fileType) && item.href)
       return window.open(item.href, "_blank");
-    openWindow(`${item.fileType}${item.kind}`, item);
+    const key = `${item.fileType}${item.kind}`
+    openWindow(key, item);
+    focusWindow(key)
   };
 
   return (

@@ -9,11 +9,12 @@ const projects = locations.work?.children ?? [];
 
 const Home = () => {
     const {setActiveLocation} = useLocationStore();
-    const {openWindow} = useWindowStore();
+    const {openWindow, focusWindow} = useWindowStore();
 
     const handleOpenProject = (project) => {
         setActiveLocation(project);
         openWindow("finder");
+        focusWindow("finder");
     }
 
     useGSAP(()=>{
